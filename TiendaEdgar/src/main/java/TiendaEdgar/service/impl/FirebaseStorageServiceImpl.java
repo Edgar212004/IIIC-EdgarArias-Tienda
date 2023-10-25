@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package TiendaEdgar.service.impl;
 
 import com.google.auth.Credentials;
@@ -21,10 +17,11 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 @Service
 
 public class FirebaseStorageServiceImpl implements FirebaseStorageService {
-    
+
     @Override
     public String cargaImagen(MultipartFile archivoLocalCliente, String carpeta, Long id) {
         try {
@@ -44,18 +41,20 @@ public class FirebaseStorageServiceImpl implements FirebaseStorageService {
             return null;
         }
     }
+
     private String uploadFile(File file, String carpeta, String fileName) throws IOException {
         //Se define el lugar y acceso al archivo .jasper
         ClassPathResource json = new ClassPathResource(rutaJsonFile + File.separator + archivoJsonFile);
         BlobId blobId = BlobId.of(BucketName, rutaSuperiorStorage + "/" + carpeta + "/" + fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        
+
         Credentials credentials = GoogleCredentials.fromStream(json.getInputStream());
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         String url = storage.signUrl(blobInfo, 3650, TimeUnit.DAYS, SignUrlOption.signWith((ServiceAccountSigner) credentials)).toString();
         return url;
     }
+
     //Método utilitario que convierte el archivo desde el equipo local del usuario a un archivo temporal en el servidor
     private File convertToFile(MultipartFile archivoLocalCliente) throws IOException {
         File tempFile = File.createTempFile("img", null);
@@ -65,9 +64,10 @@ public class FirebaseStorageServiceImpl implements FirebaseStorageService {
         }
         return tempFile;
     }
+
     //Método utilitario para obtener un string con ceros....
     private String sacaNumero(long id) {
         return String.format("%019d", id);
     }
-    
+
 }

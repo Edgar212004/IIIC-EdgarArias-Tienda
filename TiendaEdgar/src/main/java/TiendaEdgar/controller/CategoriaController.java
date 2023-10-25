@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package TiendaEdgar.controller;
 
+package TiendaEdgar.controller;
+//implements
 import TiendaEdgar.domain.Categoria;
 import TiendaEdgar.service.CategoriaService;
 import TiendaEdgar.service.impl.FirebaseStorageServiceImpl;
@@ -16,13 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 @Controller
 @Slf4j
 @RequestMapping("/categoria")
-
 public class CategoriaController {
-     @Autowired
+    
+    @Autowired
     private CategoriaService categoriaService;
+    
     @GetMapping("/listado")
     public String inicio(Model model) {
         var categorias = categoriaService.getCategorias(false);
@@ -30,6 +29,7 @@ public class CategoriaController {
         model.addAttribute("totalCategorias", categorias.size());
         return "/categoria/listado";
     }
+    
     @GetMapping("/nuevo")
     public String categoriaNuevo(Categoria categoria) {
         return "/categoria/modifica";
@@ -62,5 +62,4 @@ public class CategoriaController {
         model.addAttribute("categoria", categoria);
         return "/categoria/modifica";
     }
-    
-}
+}//Fin de la clase
