@@ -24,7 +24,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         return lista;
     }
     
-@Override
+    @Override
     @Transactional(readOnly = true)
     public Categoria getCategoria(Categoria categoria) {
         return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
